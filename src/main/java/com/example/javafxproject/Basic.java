@@ -158,7 +158,7 @@ public class Basic {
             button1.setLocation(0, 0);
             switch (text) {
                 case "create":
-                    button1.addMouseListener(getCreateListener());
+                    button1.addMouseListener((MouseClickedListener) this::createClicked);
                     break;
                 case "update":
                     throw new UnsupportedOperationException("not implemented");
@@ -175,13 +175,8 @@ public class Basic {
         return panel;
     }
 
-    private MouseListener getDeleteListener() {
-        return new MouseAdapter() {
-            @Override
-            public void mouseClicked(MouseEvent e) {
-                deleteClicked(e);
-            }
-        };
+    private void createClicked(MouseEvent e) {
+        list.setModel(add(list.getModel(), getNewModel()));
     }
 
     private void deleteClicked(MouseEvent e) {
