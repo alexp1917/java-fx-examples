@@ -19,7 +19,7 @@ public class Basic {
             "Otto", "Ringo", "Rocco", "Rollo");
     private JTextField inputField;
     private JTextField positionField;
-    private JList<MyModel> list;
+    private JList<MyModel> modelsList;
 
     public static void main(String[] args) {
         //Schedule a job for the event-dispatching thread:
@@ -111,24 +111,20 @@ public class Basic {
         // panel.add(button);
 
         {
-            list = new JList<>();
+            modelsList = new JList<>();
 
-            list.setSelectionMode(ListSelectionModel.SINGLE_INTERVAL_SELECTION);
-            list.setPrototypeCellValue(new MyModel()); //get extra space
-            list.setLayoutOrientation(JList.HORIZONTAL_WRAP);
+            modelsList.setSelectionMode(ListSelectionModel.SINGLE_INTERVAL_SELECTION);
+            modelsList.setPrototypeCellValue(new MyModel()); //get extra space
+            modelsList.setLayoutOrientation(JList.HORIZONTAL_WRAP);
             // list.setVisibleRowCount(minus one);
-            list.addMouseListener(new MouseAdapter() {
+            modelsList.addMouseListener(new MouseAdapter() {
                 public void mouseClicked(MouseEvent e) {
-                    if (e.getClickCount() == 2) {
-                        ListModel<MyModel> model = list.getModel();
-                        System.out.println("double clicked " + model);
-                    }
                 }
             });
 
             panel.add(Box.createRigidArea(new Dimension(150, 10)));
             // panel.add(list);
-            JScrollPane listScroller = new JScrollPane(list);
+            JScrollPane listScroller = new JScrollPane(modelsList);
             listScroller.setPreferredSize(new Dimension(500, 80));
             listScroller.setAlignmentX(Component.LEFT_ALIGNMENT);
             panel.add(listScroller);
@@ -176,23 +172,30 @@ public class Basic {
     }
 
     private void createClicked(MouseEvent e) {
-        list.setModel(add(list.getModel(), getNewModel()));
+        List<MyModel> modelsList = getModelsList();
+        modelsList.add(getNewModel());
+        ListModel<MyModel> model = toModel(modelsList);
+        this.modelsList.setModel(model);
     }
 
     private void deleteClicked(MouseEvent e) {
-        MyModel selectedValue = list.getSelectedValue();
+        MyModel selectedValue = modelsList.getSelectedValue();
         if (selectedValue == null) {
             JOptionPane.showMessageDialog(frame,
                     "hello, nothing there");
         } else {
             try {
-                List<MyModel> myModels = toList(list.getModel());
-                myModels.remove(list.getSelectedIndex());
-                list.setModel(toModel(myModels));
+                List<MyModel> myModels = getModelsList();
+                myModels.remove(modelsList.getSelectedIndex());
+                modelsList.setModel(toModel(myModels));
             } catch (Exception ex) {
                 ex.printStackTrace();
             }
         }
+    }
+
+    private List<MyModel> getModelsList() {
+        return this.toList(modelsList.getModel());
     }
 
     // convert listModel to list
@@ -215,15 +218,6 @@ public class Basic {
         DefaultListModel<T> dlm = new DefaultListModel<>();
         dlm.addAll(list);
         return dlm;
-    }
-
-    private MouseAdapter getCreateListener() {
-        return new MouseAdapter() {
-            @Override
-            public void mouseClicked(MouseEvent e) {
-                list.setModel(add(list.getModel(), getNewModel()));
-            }
-        };
     }
 
     private String readTextField(JTextField field) {
