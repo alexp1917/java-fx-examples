@@ -207,13 +207,6 @@ public class Basic {
         return list;
     }
 
-    // add an element and convert back to list model
-    private <T> DefaultListModel<T> add(ListModel<T> listModel, T element) {
-        List<T> list = toList(listModel);
-        list.add(element);
-        return toModel(list);
-    }
-
     private <T> DefaultListModel<T> toModel(List<T> list) {
         DefaultListModel<T> dlm = new DefaultListModel<>();
         dlm.addAll(list);
