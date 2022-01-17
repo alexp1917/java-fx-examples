@@ -12,6 +12,11 @@ import java.util.List;
 import java.util.function.Consumer;
 
 
+/**
+ * from https://docs.oracle.com/javase/tutorial/displayCode.html?code=
+ * https://docs.oracle.com/javase/tutorial/uiswing/examples/
+ * components/ListDialogRunnerProject/src/components/ListDialogRunner.java
+ */
 public class Basic {
     JFrame frame;
     List<String> names = List.of("Arlo", "Cosmo", "Elmo", "Hugo",
@@ -262,6 +267,12 @@ public class Basic {
         default void mouseExited(MouseEvent e) {}
     }
 
+    /**
+     * from
+     * https://docs.oracle.com/javase/tutorial/displayCode.html?code=
+     * https://docs.oracle.com/javase/tutorial/uiswing/examples/
+     * components/ListDialogRunnerProject/src/components/ListDialog.java
+     */
     public static class ListDialog<T> extends JDialog
             implements ActionListener {
         private static ListDialog<String> dialog;
