@@ -19,7 +19,7 @@ public class Basic {
             "Otto", "Ringo", "Rocco", "Rollo");
     private JTextField inputField;
     private JTextField positionField;
-    private JList<MyModel> modelsList;
+    private JList<MyEntity> modelsList;
 
     public static void main(String[] args) {
         //Schedule a job for the event-dispatching thread:
@@ -114,7 +114,7 @@ public class Basic {
             modelsList = new JList<>();
 
             modelsList.setSelectionMode(ListSelectionModel.SINGLE_INTERVAL_SELECTION);
-            modelsList.setPrototypeCellValue(new MyModel()); //get extra space
+            modelsList.setPrototypeCellValue(new MyEntity()); //get extra space
             modelsList.setLayoutOrientation(JList.HORIZONTAL_WRAP);
             // list.setVisibleRowCount(minus one);
             modelsList.addMouseListener(new MouseAdapter() {
@@ -172,29 +172,29 @@ public class Basic {
     }
 
     private void createClicked(MouseEvent e) {
-        List<MyModel> modelsList = getModelsList();
+        List<MyEntity> modelsList = getModelsList();
         modelsList.add(getNewModel());
-        ListModel<MyModel> model = toModel(modelsList);
+        ListModel<MyEntity> model = toModel(modelsList);
         this.modelsList.setModel(model);
     }
 
     private void deleteClicked(MouseEvent e) {
-        MyModel selectedValue = modelsList.getSelectedValue();
+        MyEntity selectedValue = modelsList.getSelectedValue();
         if (selectedValue == null) {
             JOptionPane.showMessageDialog(frame,
                     "hello, nothing there");
         } else {
             try {
-                List<MyModel> myModels = getModelsList();
-                myModels.remove(modelsList.getSelectedIndex());
-                modelsList.setModel(toModel(myModels));
+                List<MyEntity> myEntities = getModelsList();
+                myEntities.remove(modelsList.getSelectedIndex());
+                modelsList.setModel(toModel(myEntities));
             } catch (Exception ex) {
                 ex.printStackTrace();
             }
         }
     }
 
-    private List<MyModel> getModelsList() {
+    private List<MyEntity> getModelsList() {
         return this.toList(modelsList.getModel());
     }
 
@@ -226,8 +226,8 @@ public class Basic {
         return text;
     }
 
-    private MyModel getNewModel() {
-        return new MyModel().setName(readTextField(inputField)).setPosition(readTextField(positionField));
+    private MyEntity getNewModel() {
+        return new MyEntity().setName(readTextField(inputField)).setPosition(readTextField(positionField));
     }
 
     /**
@@ -244,7 +244,7 @@ public class Basic {
 
     @Accessors(chain = true)
     @Data
-    public static class MyModel {
+    public static class MyEntity {
         private String name;
         private String position;
     }
